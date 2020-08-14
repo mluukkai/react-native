@@ -46,7 +46,6 @@ const styles = StyleSheet.create({
 
 const RepositoryItem = ({ item }) => {
   const avatar = item.ownerAvatarUrl;
-  console.log(avatar);
 
   const f = (val) => {
     if (val<100) return val;
