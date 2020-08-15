@@ -1,10 +1,10 @@
-import React, {useContext, useState} from 'react';
+import React, { useState } from 'react';
 import { Text, StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
+import { useHistory } from 'react-router-native';
 import { Formik, useField } from 'formik';
 import FormikTextInput from './FormikTextInput';
 import * as yup from 'yup';
 
-import AuthStorageContext from '../contexts/AuthStorageContext';
 import useSignIn from '../hooks/useSignIn';
 
 const validationSchema = yup.object().shape({
@@ -80,8 +80,8 @@ const SignIn = () => {
   const [msg, setMsg] = useState(null);
   const [err, setErr] = useState(null);
 
-  const [signIn, result] = useSignIn();
-  const authStorage = useContext(AuthStorageContext);
+  const [signIn] = useSignIn();
+  const history = useHistory();
 
   const initialValues = {
     username: 'kalle',
@@ -93,13 +93,10 @@ const SignIn = () => {
     const password = values.password;
 
     try {
-      const response = await signIn({ username, password });
-      const token = response.data.authorize.accessToken;
-      await authStorage.setAccessToken(token);
-      const x = await authStorage.getAccessToken();
-      console.log('token:', x);
-      const msg = `${username} logged in... with pwd ${password} see token from logs`;
+      await signIn({ username, password });
+      const msg = `'${username}' logged in... see token from logs`;
       setMsg(msg);
+      history.push('/');
     } catch (error) {
       setErr("invalid credentials");
     }

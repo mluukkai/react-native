@@ -3,6 +3,13 @@ import { View, ScrollView, StyleSheet, Text, TouchableWithoutFeedback } from 're
 import { Link } from 'react-router-native';
 import Constants from 'expo-constants';
 
+import { useQuery } from '@apollo/react-hooks';
+import { useContext } from 'react';
+import { useApolloClient } from '@apollo/client';
+
+import AuthStorageContext from '../contexts/AuthStorageContext';
+import { AUTHORIZED_USER } from '../graphql/queries';
+
 const styles = StyleSheet.create({
   container: {
     paddingTop: Constants.statusBarHeight,
@@ -34,12 +41,43 @@ const AppBarTab = ({ text, target }) => {
   );
 };
 
+const SignoutTab = () => {
+  const client = useApolloClient();
+  const authStorage = useContext(AuthStorageContext);
+  const signout = () => {
+    authStorage.removeAccessToken();
+    client.resetStore();
+    alert('lol2');
+  };
+
+  return (
+    <View>
+      <TouchableWithoutFeedback onPress={signout}>
+        <View style={styles.item}>
+            <Text style={{"color": "white"}}>sign out</Text>
+        </View>
+      </TouchableWithoutFeedback>
+    </View>
+  );
+};
+
 const AppBar = () => {
+  const { data, error, loading } = useQuery(
+    AUTHORIZED_USER
+  );
+
+  const user = data ? data.authorizedUser : null;
+
+  console.log(user);
+
   return (
     <View style={styles.container}>
       <ScrollView horizontal contentContainerStyle={styles.scrollView}>
         <AppBarTab text={"repositories"} target={"/"} />
-        <AppBarTab text={"signin"} target={"/signin"}/>
+        {user?
+          <SignoutTab />:
+          <AppBarTab text={"signin"} target={"/signin"}/>
+        }
         <AppBarTab text={"bmi"} target={"/about"} />
       </ScrollView>
     </View> 
