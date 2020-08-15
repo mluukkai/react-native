@@ -1,9 +1,23 @@
 import ApolloClient from 'apollo-boost';
+import Constants from 'expo-constants';
+const base = Constants.manifest.extra.apollo_uri;
 
-const createApolloClient = () => {
+const createApolloClient = (authStorage) => {
   return new ApolloClient({
-    // Replace the IP address part with your own IP address!
-    uri: 'http://192.168.1.48:5000/graphql',
+    request: async (operation) => {
+      try {
+        const accessToken = await authStorage.getAccessToken();
+
+        operation.setContext({
+          headers: {
+            authorization: accessToken ? `Bearer ${accessToken}` : '',
+          },
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    uri: `${base}:5000/graphql`,
   });
 };
 

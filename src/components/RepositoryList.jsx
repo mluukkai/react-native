@@ -32,6 +32,7 @@ const RepositoryList = () => {
       data={repositoryNodes}
       ItemSeparatorComponent={ItemSeparator}
       renderItem={RepositoryItem}
+      keyExtractor={item => item.url}
     />
   );
 };

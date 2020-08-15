@@ -1,9 +1,11 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import { Text, StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import { Formik, useField } from 'formik';
 import FormikTextInput from './FormikTextInput';
-
 import * as yup from 'yup';
+
+import AuthStorageContext from '../contexts/AuthStorageContext';
+import useSignIn from '../hooks/useSignIn';
 
 const validationSchema = yup.object().shape({
   username: yup
@@ -76,22 +78,42 @@ const LoginForm = ({ onSubmit }) => {
 
 const SignIn = () => {
   const [msg, setMsg] = useState(null);
+  const [err, setErr] = useState(null);
+
+  const [signIn, result] = useSignIn();
+  const authStorage = useContext(AuthStorageContext);
 
   const initialValues = {
-    username: '',
-    password: '',
+    username: 'kalle',
+    password: 'password',
   };
 
-  const onSubmit = (values) => {
+  const onSubmit = async (values) => {
     const username = values.username;
     const password = values.password;
 
-    const msg = `${username} logged in... with pwd ${password}`;
-    setMsg(msg);
+    try {
+      const response = await signIn({ username, password });
+      const token = response.data.authorize.accessToken;
+      await authStorage.setAccessToken(token);
+      const x = await authStorage.getAccessToken();
+      console.log('token:', x);
+      const msg = `${username} logged in... with pwd ${password} see token from logs`;
+      setMsg(msg);
+    } catch (error) {
+      setErr("invalid credentials");
+    }
+    
   };
 
   return (
     <View>
+      <Text style={{margin:10, color:"green", fontSize: 20}}>
+        {msg}
+      </Text>
+      {err&&<Text style={{margin:10, color:"red", fontSize: 20}}>
+        {err}
+      </Text>}
       <Formik 
         initialValues={initialValues} 
         onSubmit={onSubmit}
@@ -99,9 +121,6 @@ const SignIn = () => {
       >
         {({ handleSubmit }) => <LoginForm onSubmit={handleSubmit} />}
       </Formik>
-      <Text style={{margin:10, color:"green", fontSize: 20}}>
-        {msg}
-      </Text>
     </View>
   );
 };
