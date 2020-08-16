@@ -47,7 +47,6 @@ const SignoutTab = () => {
   const signout = () => {
     authStorage.removeAccessToken();
     client.resetStore();
-    alert('lol2');
   };
 
   return (

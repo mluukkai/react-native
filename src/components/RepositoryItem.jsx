@@ -54,7 +54,7 @@ const RepositoryItem = ({ item }) => {
   }; 
 
   return (
-    <View style={styles.item}>
+    <View style={styles.item} >
       <View style={styles.main}>
         <View>
           <Image
@@ -64,15 +64,15 @@ const RepositoryItem = ({ item }) => {
         </View>
         <View>
           <Text fontWeight='bold' style={{flexGrow: 1, fontSize: 20}}>{item.fullName}</Text>
-          <Text style={{flexGrow: 1, fontSize: 15}}>{item.description}</Text> 
-          <View style={styles.language}>
+          <Text style={{flexGrow: 1, fontSize: 15}} testID={`${item.fullName}-description`}>{item.description}</Text> 
+          <View style={styles.language} testID={`${item.fullName}-language`}>
             <Text style={styles.languageText}>{item.language}</Text> 
           </View> 
         </View>
       </View>
       
       <View style={styles.ratings}>
-        <View style={styles.rating}>
+        <View style={styles.rating} testID={`${item.fullName}-stars`}>
           <Text fontWeight='bold'>{f(item.stargazersCount)}</Text>
           <Text>Star</Text>
         </View>
