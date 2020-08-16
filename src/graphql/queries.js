@@ -21,6 +21,28 @@ export const GET_REPOSITORIES = gql`
   }
 `;
 
+export const GET_USERS_RATINGS = gql`
+  {
+    users {
+      edges {
+        node {
+          username
+          id
+          reviews {
+            edges {
+              node {
+                rating
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+
+
 export const AUTHORIZED_USER = gql`
   query {
     authorizedUser {
