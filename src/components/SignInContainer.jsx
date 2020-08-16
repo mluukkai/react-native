@@ -58,13 +58,15 @@ const LoginForm = ({ onSubmit }) => {
       <FormikTextInput
         style={[styles.fields, fieldError(usernameMeta)]}
         name="username" placeholder="username"
+        testID="usernameField"
       />
       <FormikTextInput 
         style={[styles.fields, fieldError(passwordMeta)]}
         name="password" placeholder="password" 
         secure={true}
+        testID="passwordField"
       />
-      <TouchableWithoutFeedback onPress={onSubmit}>
+      <TouchableWithoutFeedback onPress={onSubmit} testID="signinButton">
         <View style={styles.signinButton}>
           <Text style={styles.signinText}>Sign in</Text>
         </View>  
@@ -74,12 +76,10 @@ const LoginForm = ({ onSubmit }) => {
 };
 
 const SignInContainer = ({ onSubmit }) => {
-
   const initialValues = {
-    username: 'kalle',
-    password: 'password',
+    username: '',
+    password: '',
   };
-
 
   return (
     <View>
