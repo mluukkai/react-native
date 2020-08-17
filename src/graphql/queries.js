@@ -15,6 +15,7 @@ export const GET_REPOSITORIES = gql`
           description 
           ownerAvatarUrl
           forksCount
+          id
         }
       }
     }
@@ -41,7 +42,23 @@ export const GET_USERS_RATINGS = gql`
   }
 `;
 
-
+export const GET_REPOSITORY = gql`
+  query get_repository($id: ID!) {
+    repository(id: $id) {
+      id
+    	fullName
+    	url
+      name
+      reviewCount 
+      ratingAverage 
+      stargazersCount
+      language 
+      description 
+      ownerAvatarUrl
+      forksCount
+    }
+  }
+`;
 
 export const AUTHORIZED_USER = gql`
   query {

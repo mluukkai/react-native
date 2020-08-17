@@ -1,6 +1,8 @@
 import React from 'react';
-import { View, Image, StyleSheet } from 'react-native';
+import { View, Image, StyleSheet, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import Text from './Text';
+import { useHistory } from 'react-router-native';
+import * as WebBrowser from 'expo-web-browser';
 
 const styles = StyleSheet.create({
   item: {
@@ -42,19 +44,49 @@ const styles = StyleSheet.create({
     margin: 10,
     flexDirection: "column",
   },
+  repoButton: {
+    marginLeft: 10,
+    marginRight: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingTop: 10,
+    backgroundColor: "blue",
+    borderRadius: 10,
+    height: 40
+  },
+  repoButtonText: {
+    color: "white",
+    textAlign: 'center',
+    fontWeight: "bold"
+  },
 });
 
-const RepositoryItem = ({ item }) => {
+const RepositoryItem = ({ item, openable=false }) => {
   const avatar = item.ownerAvatarUrl;
-
+  const history = useHistory();
+  
   const f = (val) => {
     if (val<100) return val;
 
     return `${(val/1000).toFixed(1)} k`;
   }; 
 
-  return (
-    <View style={styles.item} >
+  const openRepoItem = (id) =>
+    history.push(`/repositories/${id}`);
+
+  const openReposiroty = (url) =>
+    WebBrowser.openBrowserAsync(url);
+
+  const openRepositoryButton = () =>
+    <TouchableWithoutFeedback onPress={() => openReposiroty(item.url)}>
+      <View style={styles.repoButton}>
+        <Text style={styles.repoButtonText}>open repo</Text>
+      </View>
+    </TouchableWithoutFeedback>;
+
+  const itemView = () => {
+    return (
+      <View style={styles.item} >
       <View style={styles.main}>
         <View>
           <Image
@@ -88,9 +120,24 @@ const RepositoryItem = ({ item }) => {
           <Text fontWeight='bold'>{f(item.ratingAverage)}</Text>
           <Text>Rating</Text>
         </View>
-      </View>
-      
+      </View>  
     </View>
+    );
+  };
+
+  if (openable) {
+    return (
+      <View>
+        {itemView()}
+        {openRepositoryButton()}
+      </View>
+    );
+  }
+
+  return (
+    <TouchableOpacity onPress={() => openRepoItem(item.id)}>
+      {itemView()}
+    </TouchableOpacity>
   );
 };
 

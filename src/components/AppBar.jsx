@@ -1,8 +1,7 @@
 import React from 'react';
 import { View, ScrollView, StyleSheet, Text, TouchableWithoutFeedback } from 'react-native';
-import { Link } from 'react-router-native';
+import { Link, useLocation } from 'react-router-native';
 import Constants from 'expo-constants';
-import { useLocation } from 'react-router-native';
 
 import { useQuery } from '@apollo/react-hooks';
 import { useContext } from 'react';
@@ -35,7 +34,6 @@ const AppBarTab = ({ text, target }) => {
   const location = useLocation();
   const path = location.pathname;
 
-  console.log(path, target, path==target);
   return (
     <View>
       <TouchableWithoutFeedback>
