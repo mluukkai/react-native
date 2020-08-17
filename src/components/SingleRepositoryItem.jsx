@@ -8,7 +8,6 @@ import { GET_REPOSITORY } from '../graphql/queries';
 const SingleRepositoryItem = () => {
   
   const { id } = useParams();
-  console.log(id);
 
   const { data, error, loading } = useQuery(
     GET_REPOSITORY, {
@@ -22,8 +21,6 @@ const SingleRepositoryItem = () => {
   if (!item) {
     return null;
   }
-
-  console.log(item)
 
   return (
     <RepositoryItem item={item} openable={true} />

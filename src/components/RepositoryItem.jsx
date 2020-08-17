@@ -1,12 +1,17 @@
 import React from 'react';
-import { View, Image, StyleSheet, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
+import { View, Image, StyleSheet, TouchableOpacity, FlatList, TouchableWithoutFeedback } from 'react-native';
 import Text from './Text';
 import { useHistory } from 'react-router-native';
 import * as WebBrowser from 'expo-web-browser';
+import ReviewItem from './ReviewItem';
 
 const styles = StyleSheet.create({
   item: {
     padding: 5
+  },
+  separator: {
+    height: 10,
+    backgroundColor: "lightgray"
   },
   main: {
     display: "flex",
@@ -61,6 +66,8 @@ const styles = StyleSheet.create({
   },
 });
 
+const ItemSeparator = () => <View style={styles.separator} />;
+
 const RepositoryItem = ({ item, openable=false }) => {
   const avatar = item.ownerAvatarUrl;
   const history = useHistory();
@@ -83,6 +90,21 @@ const RepositoryItem = ({ item, openable=false }) => {
         <Text style={styles.repoButtonText}>open repo</Text>
       </View>
     </TouchableWithoutFeedback>;
+
+  const reviewsList = () => {
+    const reviews = item.reviews.edges;
+    return (
+      <View>
+        <FlatList
+          data={reviews}
+          renderItem={({ item }) => <ReviewItem review={item.node} />}
+          keyExtractor={({ id }) => id}
+          ItemSeparatorComponent={ItemSeparator}
+          //ListHeaderComponent={() => <RepositoryInfo repository={repository} />}
+        />
+      </View>
+    );
+  };
 
   const itemView = () => {
     return (
@@ -130,6 +152,7 @@ const RepositoryItem = ({ item, openable=false }) => {
       <View>
         {itemView()}
         {openRepositoryButton()}
+        {reviewsList()}
       </View>
     );
   }

@@ -46,8 +46,8 @@ export const GET_REPOSITORY = gql`
   query get_repository($id: ID!) {
     repository(id: $id) {
       id
-    	fullName
-    	url
+      fullName
+      url
       name
       reviewCount 
       ratingAverage 
@@ -55,7 +55,21 @@ export const GET_REPOSITORY = gql`
       language 
       description 
       ownerAvatarUrl
-      forksCount
+      forksCount 
+      reviews{
+        edges{
+          node{
+            id
+            text
+            rating
+            createdAt 
+            user {
+              id
+              username
+            }
+          }
+        }
+      }
     }
   }
 `;

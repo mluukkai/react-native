@@ -73,8 +73,6 @@ const AppBar = () => {
 
   const user = data ? data.authorizedUser : null;
 
-  console.log(user);
-
   return (
     <View style={styles.container}>
       <ScrollView horizontal contentContainerStyle={styles.scrollView}>
