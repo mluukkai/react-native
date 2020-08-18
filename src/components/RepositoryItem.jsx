@@ -124,7 +124,7 @@ const RepositoryItem = ({ item, openable=false }) => {
           </View> 
         </View>
       </View>
-      
+
       <View style={styles.ratings}>
         <View style={styles.rating} testID={`${item.fullName}-stars`}>
           <Text fontWeight='bold'>{f(item.stargazersCount)}</Text>

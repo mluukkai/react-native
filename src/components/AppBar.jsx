@@ -83,6 +83,7 @@ const AppBar = () => {
           <AppBarTab text={"signin"} target={"/signin"}/>
         }
         {user&&<AppBarTab text={"review"} target={"/review"}/>}
+        <AppBarTab text={"signup"} target={"/signup"}/>
       </ScrollView>
     </View> 
   );
