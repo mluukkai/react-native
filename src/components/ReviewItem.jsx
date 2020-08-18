@@ -19,15 +19,12 @@ const styles = StyleSheet.create({
     borderColor: "blue",
     borderWidth: 2,
     color: "blue",
-  },
-  empty: {
-    flexGrow: 1,
-    flexBasis: 100,
-    flexShrink: 0
+    width: 80,
+    height: 80
   },
   nameDate: {
     flexGrow: 1,
-    margin: 10,
+    margin: 5,
     flexDirection: "column",
   },
   name: {
@@ -35,23 +32,27 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     paddingTop: 5,
     flexGrow: 1,
-    margin: 10,
+    margin: 5,
   },
   date: {
     fontSize: 14,
     color: "grey",
     flexGrow: 1,
-    margin: 10,
+    margin: 5,
+  },
+  empty: {
+    flexGrow: 1,
+    flexBasis: 82,
+    flexShrink: 0
   },
   text: {
     flexGrow: 1,
+    width: 250,
     margin: 10,
   }
 });
 
 const ReviewItem = ({ review }) => {
-  console.log(review);
-
   const f = (t) =>
     (new Date(t)).toLocaleDateString().replace('/','.').replace('/','.');
 

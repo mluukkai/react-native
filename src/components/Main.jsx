@@ -9,6 +9,7 @@ import About from './About';
 import AppBar from './AppBar';
 import theme from '../theme';
 import SingleRepositoryItem from './SingleRepositoryItem';
+import ReviewForm from './ReviewForm';
 
 const styles = StyleSheet.create({
   container: {
@@ -32,6 +33,9 @@ const Main = () => {
         <Route path="/users" exact>
           <UserList />
         </Route>
+        <Route path="/review" exact>
+          <ReviewForm />
+        </Route>        
         <Route path="/signin" exact>
           <SignIn />
         </Route>

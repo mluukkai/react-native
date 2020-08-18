@@ -82,7 +82,7 @@ const AppBar = () => {
           <SignoutTab />:
           <AppBarTab text={"signin"} target={"/signin"}/>
         }
-        <AppBarTab text={"bmi"} target={"/about"} />
+        {user&&<AppBarTab text={"review"} target={"/review"}/>}
       </ScrollView>
     </View> 
   );

@@ -98,7 +98,7 @@ const RepositoryItem = ({ item, openable=false }) => {
         <FlatList
           data={reviews}
           renderItem={({ item }) => <ReviewItem review={item.node} />}
-          keyExtractor={({ id }) => id}
+          keyExtractor={({ node }) => node.id}
           ItemSeparatorComponent={ItemSeparator}
           //ListHeaderComponent={() => <RepositoryInfo repository={repository} />}
         />
