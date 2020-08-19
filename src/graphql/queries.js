@@ -22,6 +22,69 @@ export const GET_REPOSITORIES = gql`
   }
 `;
 
+export const GET_REPOSITORIES2 = gql`
+query repositories($by: AllRepositoriesOrderBy, $direction: OrderDirection){
+  repositories (orderBy: $by, orderDirection:$direction) {
+     edges {
+       node {
+         name
+         url
+         reviewCount 
+         ratingAverage 
+         stargazersCount
+         language 
+         description 
+         ownerAvatarUrl
+         forksCount
+         id
+       }
+     }
+   }
+ }
+`;
+
+export const GET_REPOSITORIES_HIGHEST = gql`
+{
+  repositories (orderBy: RATING_AVERAGE) {
+    edges {
+      node {
+        name
+        url
+        reviewCount 
+        ratingAverage 
+        stargazersCount
+        language 
+        description 
+        ownerAvatarUrl
+        forksCount
+        id
+      }
+    }
+  }
+}
+`;
+
+export const GET_REPOSITORIES_LOWEST = gql`
+{
+  repositories (orderBy: RATING_AVERAGE, orderDirection:ASC) {
+    edges {
+      node {
+        name
+        url
+        reviewCount 
+        ratingAverage 
+        stargazersCount
+        language 
+        description 
+        ownerAvatarUrl
+        forksCount
+        id
+      }
+    }
+  }
+}
+`;
+
 export const GET_USERS_RATINGS = gql`
   {
     users {
