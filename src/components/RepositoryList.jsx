@@ -29,7 +29,7 @@ const RepositoryList = () => {
 
   const repositories = result.data.repositories;
 
-  return <RepositoryListContainer repositories={repositories} onChange={onChange} />;
+  return <RepositoryListContainer repositories={repositories} onChange={onChange} value={criteria} />;
 };
 
 export default RepositoryList;
