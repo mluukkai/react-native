@@ -1,16 +1,27 @@
 import React from 'react';
 import { Text, StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import { Formik, useField } from 'formik';
-import FormikTextInput from './FormikTextInput';
 import * as yup from 'yup';
+import { useHistory } from 'react-router-native';
+import { useMutation } from '@apollo/react-hooks';
+import { CREATE_USER } from '../graphql/mutations';
+import FormikTextInput from './FormikTextInput';
 
 const validationSchema = yup.object().shape({
   username: yup
     .string()
-    .required('username is required'),
+    .required('username is required')
+    .min(1)
+    .max(30),
   password: yup
     .string()
+    .min(5)
+    .max(30)
     .required('password is required'),
+  confirmation: yup
+    .string()
+    .oneOf([yup.ref('password'), null], "Passwords don't match")
+    .required('Password confirm is required')
 });
 
 const styles = StyleSheet.create({
@@ -86,12 +97,15 @@ const SignUp = () => {
     confirmation: ''
   };
 
+  const [create, result] = useMutation(CREATE_USER);
+  const history = useHistory();
+
   const onSubmit = async (values) => {
     const username = values.username;
     const password = values.password;
-    const confirmation = values.password;
-
-    console.log({username, password, confirmation});
+    const response = await create({ variables: { username, password } });
+    console.log(response);
+    history.push("/");
   };
 
   return (

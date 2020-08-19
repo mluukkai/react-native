@@ -51,8 +51,10 @@ const SignoutTab = () => {
   const client = useApolloClient();
   const authStorage = useContext(AuthStorageContext);
   const signout = () => {
+    console.log('signing out');
     authStorage.removeAccessToken();
     client.resetStore();
+    console.log('signed out');
   };
 
   return (
@@ -82,8 +84,8 @@ const AppBar = () => {
           <SignoutTab />:
           <AppBarTab text={"signin"} target={"/signin"}/>
         }
+        {!user&&<AppBarTab text={"signup"} target={"/signup"}/>}
         {user&&<AppBarTab text={"review"} target={"/review"}/>}
-        <AppBarTab text={"signup"} target={"/signup"}/>
       </ScrollView>
     </View> 
   );
