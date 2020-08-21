@@ -20,8 +20,6 @@ const RepositoryList = () => {
       "key": key
     };
 
-    console.log(key);
-
     getRepositories({ variables });
   }, [criteria, keydebounce]);
 

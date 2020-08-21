@@ -52,9 +52,11 @@ const styles = StyleSheet.create({
   }
 });
 
-const ReviewItem = ({ review }) => {
+const ReviewItem = ({ review, reponame }) => {
   const f = (t) =>
     (new Date(t)).toLocaleDateString().replace('/','.').replace('/','.');
+
+  console.log(review.repository.fullName)
 
   return (
     <View>
@@ -62,7 +64,7 @@ const ReviewItem = ({ review }) => {
       <View style={styles.row}>
         <Text style={styles.score}>{review.rating}</Text>
         <View style={styles.numDate}>
-          <Text style={styles.name}>{review.user.username}</Text>
+          <Text style={styles.name}>{reponame?review.repository.fullName:review.user.username}</Text>
           <Text style={styles.date}>{f(review.createdAt)}</Text>
         </View>
       </View>

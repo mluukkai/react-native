@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, View, StyleSheet, TextInput, Text } from 'react-native';
+import { FlatList, View, StyleSheet, TextInput } from 'react-native';
 import PickerSelect from 'react-native-picker-select';
 
 import RepositoryItem from './RepositoryItem';

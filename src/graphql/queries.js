@@ -124,3 +124,30 @@ export const AUTHORIZED_USER = gql`
     }
   }
 `;
+
+export const MY_REVIEWS = gql`
+  query {
+    authorizedUser {
+      id
+      username
+      reviews{
+        edges{
+          node{
+            id 
+            user { 
+              username
+            }
+            repository { 
+              id 
+              ownerName
+              fullName
+            }
+            createdAt 
+            rating 
+            text
+          }
+        }
+      }
+    }
+  }
+`;

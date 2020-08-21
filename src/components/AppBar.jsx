@@ -80,12 +80,13 @@ const AppBar = () => {
       <ScrollView horizontal contentContainerStyle={styles.scrollView}>
         <AppBarTab text={"repositories"} target={"/"} />
         <AppBarTab text={"users"} target={"/users"} />
+        {user&&<AppBarTab text={"review"} target={"/review"}/>}
+        {user&&<AppBarTab text={"my reviews"} target={"/reviews"}/>}
         {user?
           <SignoutTab />:
           <AppBarTab text={"signin"} target={"/signin"}/>
         }
         {!user&&<AppBarTab text={"signup"} target={"/signup"}/>}
-        {user&&<AppBarTab text={"review"} target={"/review"}/>}
       </ScrollView>
     </View> 
   );

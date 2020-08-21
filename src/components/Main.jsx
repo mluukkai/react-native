@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Route, Switch, Redirect } from 'react-router-native';
+import { Route, Switch, Redirect, useHistory } from 'react-router-native';
 
 import RepositoryList from './RepositoryList';
 import UserList from './UserList';
@@ -11,6 +11,7 @@ import AppBar from './AppBar';
 import theme from '../theme';
 import SingleRepositoryItem from './SingleRepositoryItem';
 import ReviewForm from './ReviewForm';
+import MyReviews from './MyReviews';
 
 const styles = StyleSheet.create({
   container: {
@@ -21,6 +22,8 @@ const styles = StyleSheet.create({
 });
 
 const Main = () => {
+  const history = useHistory();
+  history.push('/reviews');
   return (
     <View style={styles.container}>
       <AppBar />
@@ -42,6 +45,9 @@ const Main = () => {
         </Route>
         <Route path="/signup" exact>
           <SignUp />
+        </Route>
+        <Route path="/reviews" exact>
+          <MyReviews />
         </Route>
         <Route path="/about" exact>
           <About />
