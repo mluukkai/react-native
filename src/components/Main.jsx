@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
 
 const Main = () => {
   const history = useHistory();
-  history.push('/reviews');
+  //history.push('/reviews');
   return (
     <View style={styles.container}>
       <AppBar />

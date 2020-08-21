@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import Text from './Text';
+import { View, StyleSheet, Text, TouchableWithoutFeedback } from 'react-native';
+import { useHistory } from 'react-router-native';
 
 const styles = StyleSheet.create({
   row: {
@@ -52,11 +52,75 @@ const styles = StyleSheet.create({
   }
 });
 
+const buttonStyles = StyleSheet.create({
+  panel: {
+    flexDirection: "row",
+    margin: 10
+  },
+  view: {
+    flexGrow: 1,
+    width: 100,
+    marginLeft: 10,
+    marginRight: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingTop: 10,
+    backgroundColor: "blue",
+    borderRadius: 10,
+    height: 40
+  },
+  remove: {
+    flexGrow: 1,
+    width: 100,
+    marginLeft: 10,
+    marginRight: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingTop: 10,
+    backgroundColor: "red",
+    borderRadius: 10,
+    height: 40
+  },
+  text: {
+    color: "white",
+    textAlign: 'center',
+    fontWeight: "bold"
+  },
+});
+
 const ReviewItem = ({ review, reponame }) => {
   const f = (t) =>
     (new Date(t)).toLocaleDateString().replace('/','.').replace('/','.');
 
-  console.log(review.repository.fullName)
+  const history = useHistory();
+  const url = `/repositories/${review.repository.id}`; 
+
+
+  const buttons = () => {
+    if ( !reponame ) return null;
+    return (
+      <View style={buttonStyles.panel}>
+        <View style={buttonStyles.view}>
+          <TouchableWithoutFeedback onPress={() => history.push(url)}>
+            <View>
+              <Text style={buttonStyles.text}>
+                View repository
+              </Text>
+            </View>
+          </TouchableWithoutFeedback>
+        </View>
+        <View style={buttonStyles.remove}>
+          <TouchableWithoutFeedback style={buttonStyles.remove}>
+            <View>
+                <Text style={buttonStyles.text}>
+                  Delete review
+                </Text>
+              </View>
+          </TouchableWithoutFeedback>
+        </View>
+      </View>
+    );
+  };
 
   return (
     <View>
@@ -72,7 +136,7 @@ const ReviewItem = ({ review, reponame }) => {
         <Text style={styles.empty}></Text>
         <Text style={styles.text}>{review.text}</Text>
       </View>
-      
+      {buttons()}
     </View>
   );
 };

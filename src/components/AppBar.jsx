@@ -51,10 +51,8 @@ const SignoutTab = () => {
   const client = useApolloClient();
   const authStorage = useContext(AuthStorageContext);
   const signout = () => {
-    console.log('signing out');
     authStorage.removeAccessToken();
     client.resetStore();
-    console.log('signed out');
   };
 
   return (

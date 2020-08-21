@@ -80,7 +80,7 @@ const RepositoryItem = ({ item, openable=false }) => {
 
   const openRepoItem = (id) =>
     history.push(`/repositories/${id}`);
-
+    
   const openReposiroty = (url) =>
     WebBrowser.openBrowserAsync(url);
 
