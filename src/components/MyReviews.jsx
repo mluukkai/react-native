@@ -1,9 +1,9 @@
 import React from 'react';
-import { View, Image, StyleSheet, TouchableOpacity, FlatList, TouchableWithoutFeedback, Text } from 'react-native';
+import { View, StyleSheet, FlatList} from 'react-native';
 import { useQuery } from '@apollo/react-hooks';
 
 import ReviewItem from './ReviewItem';
-import { MY_REVIEWS} from '../graphql/queries';
+import { MY_REVIEWS } from '../graphql/queries';
 
 const styles = StyleSheet.create({
   item: {

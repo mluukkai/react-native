@@ -1,6 +1,10 @@
 import React from 'react';
 import { View, StyleSheet, Text, TouchableWithoutFeedback } from 'react-native';
 import { useHistory } from 'react-router-native';
+import { DELETE_REVIEW } from '../graphql/mutations';
+import { MY_REVIEWS } from '../graphql/queries';
+
+import { useMutation } from '@apollo/react-hooks';
 
 const styles = StyleSheet.create({
   row: {
@@ -94,10 +98,18 @@ const ReviewItem = ({ review, reponame }) => {
 
   const history = useHistory();
   const url = `/repositories/${review.repository.id}`; 
+  const [remove, result] = useMutation(DELETE_REVIEW, {
+    refetchQueries: [ { query: MY_REVIEWS } ]
+  });
 
+  const removeReview = async () => {
+    const response = await remove({ variables: { id : review.id} });
+    console.log(response);
+  };
 
   const buttons = () => {
     if ( !reponame ) return null;
+
     return (
       <View style={buttonStyles.panel}>
         <View style={buttonStyles.view}>
@@ -110,7 +122,7 @@ const ReviewItem = ({ review, reponame }) => {
           </TouchableWithoutFeedback>
         </View>
         <View style={buttonStyles.remove}>
-          <TouchableWithoutFeedback style={buttonStyles.remove}>
+          <TouchableWithoutFeedback onPress={removeReview}>
             <View>
                 <Text style={buttonStyles.text}>
                   Delete review

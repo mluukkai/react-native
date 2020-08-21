@@ -18,6 +18,12 @@ export const CREATE_USER = gql`
   }
 `;
 
+export const DELETE_REVIEW = gql`
+mutation deleteReview($id: ID!) {
+  deleteReview(id: $id)
+}
+`;
+
 export const REVIEW = gql`
   mutation createReview($repository: String!, $owner : String!, $rating: Int!, $text: String) {
     createReview(review: { repositoryName: $repository, ownerName: $owner, rating: $rating, text: $text }) {
