@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, View, StyleSheet } from 'react-native';
+import { FlatList, View, StyleSheet, TextInput, Text } from 'react-native';
 import PickerSelect from 'react-native-picker-select';
 
 import RepositoryItem from './RepositoryItem';
@@ -8,6 +8,10 @@ const styles = StyleSheet.create({
   separator: {
     height: 10,
     backgroundColor: "lightgray"
+  },
+  search: {
+    height: 20,
+    margin: 10
   }
 });
 
@@ -37,7 +41,7 @@ const pickerStyles = StyleSheet.create({
 
 const ItemSeparator = () => <View style={styles.separator} />;
 
-export const Dropdown = ({ onChange, value }) => {
+const Dropdown = ({ onChange, value }) => {
   return (
     <PickerSelect
       style={pickerStyles}
@@ -51,21 +55,43 @@ export const Dropdown = ({ onChange, value }) => {
     />
   );
 };
-const RepositoryListContainer = ({ repositories, onChange, value }) => {
-  const repositoryNodes = repositories.edges
-    ? repositories.edges.map(edge => edge.node) 
-    : [];
 
+const Search = ({ onChange, value }) => {
   return (
-    <FlatList
-      ListHeaderComponent={<Dropdown onChange={onChange} value={value} />}
-      data={repositoryNodes}
-      ItemSeparatorComponent={ItemSeparator}
-      renderItem={({item}) => <RepositoryItem item={item} />}
-      keyExtractor={item => item.id}
+    <TextInput
+      placeholder={"type to limit search"}
+      style={styles.search}
+      value={value}
+      onChangeText={onChange}
     />
   );
 };
 
+export class RepositoryListContainer extends React.Component {
+  renderHeader = () => {
+    return (
+      <View>
+        <Search onChange={this.props.onSeachChange} value={this.props.search}/>
+        <Dropdown onChange={this.props.onChange} value={this.props.value} />
+      </View>
+    );
+  };
+
+  render() {
+    const repositoryNodes = this.props.repositories.edges
+    ? this.props.repositories.edges.map(edge => edge.node) 
+    : [];
+
+    return (
+      <FlatList
+        data={repositoryNodes}
+        ItemSeparatorComponent={ItemSeparator}
+        renderItem={({item}) => <RepositoryItem item={item} />}
+        keyExtractor={item => item.id}
+        ListHeaderComponent={this.renderHeader}
+      />
+    );
+  }
+}
 
 export default RepositoryListContainer;
