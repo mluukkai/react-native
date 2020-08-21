@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Text, TouchableWithoutFeedback } from 'react-native';
+import { View, StyleSheet, Text, TouchableWithoutFeedback, Alert } from 'react-native';
 import { useHistory } from 'react-router-native';
 import { DELETE_REVIEW } from '../graphql/mutations';
 import { MY_REVIEWS } from '../graphql/queries';
@@ -103,8 +103,25 @@ const ReviewItem = ({ review, reponame }) => {
   });
 
   const removeReview = async () => {
-    const response = await remove({ variables: { id : review.id} });
-    console.log(response);
+    const onOkPress = async () => {
+      const response = await remove({ variables: { id : review.id} });
+      console.log(response);
+    };
+    Alert.alert(
+      "Delete review",
+      "Are you sure you want to delete this review?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "OK", onPress: onOkPress}
+      ],
+      { cancelable: false }
+    );
+
+
   };
 
   const buttons = () => {
