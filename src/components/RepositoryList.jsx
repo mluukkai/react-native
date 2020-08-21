@@ -2,12 +2,12 @@ import React, {useState, useEffect} from 'react';
 import { useLazyQuery } from '@apollo/react-hooks';
 import RepositoryListContainer from './RepositoryListContainer';
 import useRepositories from '../hooks/useRepositories';
-import { GET_REPOSITORIES2 } from '../graphql/queries';
+import { GET_REPOSITORIES } from '../graphql/queries';
 
 
 const RepositoryList = () => {
   const [criteria, setCriteria] = useState("Latest");
-  const [getRepositories, result] = useLazyQuery(GET_REPOSITORIES2); 
+  const [getRepositories, result] = useLazyQuery(GET_REPOSITORIES); 
 
   useEffect(()=>{
     const variables = {
