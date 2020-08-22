@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, FlatList, Text } from 'react-native';
 import { Route, Switch, Redirect, useHistory } from 'react-router-native';
 
 import RepositoryList from './RepositoryList';
@@ -23,10 +23,12 @@ const styles = StyleSheet.create({
 
 const Main = () => {
   const history = useHistory();
-  history.push('/repositories/jaredpalmer.formik');
+  //history.push('/repositories/jaredpalmer.formik');
+
   return (
     <View style={styles.container}>
       <AppBar />
+
       <Switch>
         <Route path="/" exact>
           <RepositoryList />
@@ -59,3 +61,19 @@ const Main = () => {
 };
 
 export default Main;
+
+/*
+
+  const items = [{ id: "1"}, { id: "2"}];
+  for (let i =3; i<25; i++) 
+    items.push({ id: String(i)});
+    
+      <FlatList
+        data={items}
+        renderItem={({item}) => <Text>z</Text>}
+        keyExtractor={item => item.id}
+        onEndReached={()=>console.log('called')}
+        onEndReachedThreshold={0.5}
+      />
+
+      */

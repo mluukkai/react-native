@@ -91,23 +91,6 @@ const RepositoryItem = ({ item, onEndReach, openable=false }) => {
       </View>
     </TouchableWithoutFeedback>;
 
-  const reviewsList = () => {
-    const reviews = item.reviews.edges;
-
-    return (
-      <View>
-        <FlatList
-          data={reviews}
-          renderItem={({ item }) => <ReviewItem review={item.node} />}
-          keyExtractor={({ node }) => node.id}
-          ItemSeparatorComponent={ItemSeparator}
-          onEndReach={() => console.log("called")}
-          onEndReachedThreshold={0.5}
-        />
-      </View>
-    );
-  };
-
   const itemView = () => {
     return (
       <View style={styles.item} >
@@ -149,11 +132,26 @@ const RepositoryItem = ({ item, onEndReach, openable=false }) => {
     );
   };
 
+  const reviewsList = () => {
+    const reviews = item.reviews.edges;
+    return (
+      <View>
+        <FlatList
+          data={reviews}
+          renderItem={({item}) => <ReviewItem review={item.node} />}
+          keyExtractor={({ node }) => node.id}
+          ItemSeparatorComponent={ItemSeparator}
+          onEndReached={onEndReach}
+          onEndReachedThreshold={0.5}
+          ListHeaderComponent={<View>{itemView()}{openRepositoryButton()}</View>}
+        />
+      </View>
+    );
+  };
+
   if (openable) {
     return (
       <View>
-        {itemView()}
-        {openRepositoryButton()}
         {reviewsList()}
       </View>
     );

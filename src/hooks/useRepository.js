@@ -12,7 +12,7 @@ const useRepositories = (variables) => {
 
   const handleFetchMore = () => {
     const canFetchMore =
-      !loading && data && data.repositories.pageInfo.hasNextPage;
+      !loading && data && data.repository.reviews.pageInfo.hasNextPage;
 
     if (!canFetchMore) {
       return;
@@ -21,17 +21,20 @@ const useRepositories = (variables) => {
     fetchMore({
       query: GET_REPOSITORY,
       variables: {
-        after: data.repositories.pageInfo.endCursor,
+        after: data.repository.reviews.pageInfo.endCursor,
         ...variables,
       },
       updateQuery: (previousResult, { fetchMoreResult }) => {
         const nextResult = {
           repository: {
             ...fetchMoreResult.repository,
-            edges: [
-              ...previousResult.repository.edges,
-              ...fetchMoreResult.repository.edges,
-            ],
+            reviews: {
+              ...fetchMoreResult.repository.reviews,
+              edges: [
+                ...previousResult.repository.reviews.edges,
+                ...fetchMoreResult.repository.reviews.edges,
+              ],
+            },
           },
         };
 

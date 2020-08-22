@@ -9,7 +9,7 @@ const SingleRepositoryItem = () => {
 
   const data = useRepository({ 
     id,
-    first: 3, 
+    first: 2, 
   });
 
   const item = data ? data.repository: null;
@@ -20,6 +20,7 @@ const SingleRepositoryItem = () => {
 
   const onEndReach = () => {
     console.log("end...");
+    data.fetchMore();
   };
 
   return (
