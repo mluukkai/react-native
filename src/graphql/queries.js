@@ -29,48 +29,6 @@ query repositories($by: AllRepositoriesOrderBy, $direction: OrderDirection, $key
  }
 `;
 
-export const GET_REPOSITORIES_HIGHEST = gql`
-{
-  repositories (orderBy: RATING_AVERAGE) {
-    edges {
-      node {
-        name
-        url
-        reviewCount 
-        ratingAverage 
-        stargazersCount
-        language 
-        description 
-        ownerAvatarUrl
-        forksCount
-        id
-      }
-    }
-  }
-}
-`;
-
-export const GET_REPOSITORIES_LOWEST = gql`
-{
-  repositories (orderBy: RATING_AVERAGE, orderDirection: ASC) {
-    edges {
-      node {
-        name
-        url
-        reviewCount 
-        ratingAverage 
-        stargazersCount
-        language 
-        description 
-        ownerAvatarUrl
-        forksCount
-        id
-      }
-    }
-  }
-}
-`;
-
 export const GET_USERS_RATINGS = gql`
   {
     users {
@@ -92,7 +50,7 @@ export const GET_USERS_RATINGS = gql`
 `;
 
 export const GET_REPOSITORY = gql`
-  query get_repository($id: ID!) {
+  query get_repository($id: ID!, $first: Int, $after: String) {
     repository(id: $id) {
       id
       fullName
@@ -105,7 +63,7 @@ export const GET_REPOSITORY = gql`
       description 
       ownerAvatarUrl
       forksCount 
-      reviews{
+      reviews(first: $first, after: $after){
         edges{
           node{
             id
@@ -120,6 +78,13 @@ export const GET_REPOSITORY = gql`
               username
             }
           }
+          cursor
+        }
+        pageInfo {
+          endCursor
+          startCursor
+          totalCount
+          hasNextPage
         }
       }
     }

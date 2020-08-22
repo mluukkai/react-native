@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
 
 const ItemSeparator = () => <View style={styles.separator} />;
 
-const RepositoryItem = ({ item, openable=false }) => {
+const RepositoryItem = ({ item, onEndReach, openable=false }) => {
   const avatar = item.ownerAvatarUrl;
   const history = useHistory();
   
@@ -93,6 +93,9 @@ const RepositoryItem = ({ item, openable=false }) => {
 
   const reviewsList = () => {
     const reviews = item.reviews.edges;
+
+    const f = () => console.log("***");
+
     return (
       <View>
         <FlatList
@@ -100,7 +103,7 @@ const RepositoryItem = ({ item, openable=false }) => {
           renderItem={({ item }) => <ReviewItem review={item.node} />}
           keyExtractor={({ node }) => node.id}
           ItemSeparatorComponent={ItemSeparator}
-          //ListHeaderComponent={() => <RepositoryInfo repository={repository} />}
+          onEndReach={f}
         />
       </View>
     );

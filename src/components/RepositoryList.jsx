@@ -30,7 +30,6 @@ const RepositoryList = () => {
   }
 
   const onEndReach = () => {
-    console.log('end');
     fetchMore();
   };
 

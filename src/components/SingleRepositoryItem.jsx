@@ -1,20 +1,16 @@
 import React from 'react';
 import { useParams } from 'react-router-native';
-import RepositoryItem from './RepositoryItem';
 
-import { useQuery } from '@apollo/react-hooks';
-import { GET_REPOSITORY } from '../graphql/queries';
+import RepositoryItem from './RepositoryItem';
+import useRepository from '../hooks/useRepository';
 
 const SingleRepositoryItem = () => {
-  
   const { id } = useParams();
 
-  const { data, error, loading } = useQuery(
-    GET_REPOSITORY, {
-      variables: { id },
-      fetchPolicy: 'cache-and-network',
-    }
-  );
+  const data = useRepository({ 
+    id,
+    first: 3, 
+  });
 
   const item = data ? data.repository: null;
 
@@ -22,8 +18,16 @@ const SingleRepositoryItem = () => {
     return null;
   }
 
+  const onEndReach = () => {
+    console.log("end...");
+  };
+
   return (
-    <RepositoryItem item={item} openable={true} />
+    <RepositoryItem
+      item={item}
+      openable={true}
+      onEndReach={onEndReach}
+    />
   );
 };
 
