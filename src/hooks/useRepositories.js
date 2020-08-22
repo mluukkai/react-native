@@ -27,8 +27,6 @@ const useRepositories = (variables) => {
         ...variables,
       },
       updateQuery: (previousResult, { fetchMoreResult }) => {
-        console.log('P',previousResult)
-        console.log('F',fetchMoreResult)
         const nextResult = {
           repositories: {
             ...fetchMoreResult.repositories,

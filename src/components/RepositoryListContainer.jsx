@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FlatList, View, StyleSheet, TextInput } from 'react-native';
 import PickerSelect from 'react-native-picker-select';
 
@@ -56,13 +56,20 @@ const Dropdown = ({ onChange, value }) => {
   );
 };
 
-const Search = ({ onChange, value }) => {
+const Search = ({ onChange, initial }) => {
+  const [value, setValue] = useState(initial);
+
+  const changeHandler = (text) => {
+    setValue(text);
+    onChange(text);
+  };
+
   return (
     <TextInput
       placeholder={"type to limit search"}
       style={styles.search}
       value={value}
-      onChangeText={onChange}
+      onChangeText={changeHandler}
     />
   );
 };
@@ -71,7 +78,7 @@ export class RepositoryListContainer extends React.Component {
   renderHeader = () => {
     return (
       <View>
-        <Search onChange={this.props.onSeachChange} value={this.props.search}/>
+        <Search onChange={this.props.onSeachChange} initial={this.props.search}/>
         <Dropdown onChange={this.props.onChange} value={this.props.value} />
       </View>
     );
