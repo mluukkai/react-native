@@ -89,6 +89,8 @@ export class RepositoryListContainer extends React.Component {
         renderItem={({item}) => <RepositoryItem item={item} />}
         keyExtractor={item => item.id}
         ListHeaderComponent={this.renderHeader}
+        onEndReached={this.props.onEndReach}
+        onEndReachedThreshold={0.5}
       />
     );
   }

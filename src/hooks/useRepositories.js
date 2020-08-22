@@ -1,23 +1,55 @@
 import { useQuery } from '@apollo/react-hooks';
 
-import { GET_REPOSITORIES, GET_REPOSITORIES_HIGHEST, GET_REPOSITORIES_LOWEST } from '../graphql/queries';
 
-const useRepositories = (how) => {
+import { GET_REPOSITORIES } from '../graphql/queries';
+
+const useRepositories = (variables) => {
   let query = GET_REPOSITORIES;
-  if (how == 'Highest') {
-    query = GET_REPOSITORIES_HIGHEST;
-  } else if (how == "Lowest") {
-    query = GET_REPOSITORIES_LOWEST;
-  }
-  const { data, error, loading } = useQuery(
+  const { data, error, loading, fetchMore, ...result  } = useQuery(
       query, {
       fetchPolicy: 'cache-and-network',
+      variables
     }
   );
 
-  const repositories = data ? data.repositories : [];
+  const handleFetchMore = () => {
+    const canFetchMore =
+      !loading && data && data.repositories.pageInfo.hasNextPage;
 
-  return { repositories, loading };
+    if (!canFetchMore) {
+      return;
+    }
+
+    fetchMore({
+      query: GET_REPOSITORIES,
+      variables: {
+        after: data.repositories.pageInfo.endCursor,
+        ...variables,
+      },
+      updateQuery: (previousResult, { fetchMoreResult }) => {
+        console.log('P',previousResult)
+        console.log('F',fetchMoreResult)
+        const nextResult = {
+          repositories: {
+            ...fetchMoreResult.repositories,
+            edges: [
+              ...previousResult.repositories.edges,
+              ...fetchMoreResult.repositories.edges,
+            ],
+          },
+        };
+
+        return nextResult;
+      },
+    });
+  };
+
+  return {
+    repositories: data ? data.repositories : undefined,
+    fetchMore: handleFetchMore,
+    loading,
+    ...result,
+  };
 };
 
 export default useRepositories;

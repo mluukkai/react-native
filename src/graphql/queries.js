@@ -1,8 +1,8 @@
 import { gql } from 'apollo-boost';
 
 export const GET_REPOSITORIES = gql`
-query repositories($by: AllRepositoriesOrderBy, $direction: OrderDirection, $key: String){
-  repositories (orderBy: $by, orderDirection:$direction, searchKeyword: $key) {
+query repositories($by: AllRepositoriesOrderBy, $direction: OrderDirection, $key: String, $first: Int, $after: String){
+  repositories (orderBy: $by, orderDirection:$direction, searchKeyword: $key, first: $first, after: $after) {
      edges {
        node {
          name
@@ -17,7 +17,14 @@ query repositories($by: AllRepositoriesOrderBy, $direction: OrderDirection, $key
          fullName
          id
        }
+      cursor
      }
+		pageInfo {
+      endCursor
+      startCursor
+      totalCount
+      hasNextPage
+    }
    }
  }
 `;
@@ -45,7 +52,7 @@ export const GET_REPOSITORIES_HIGHEST = gql`
 
 export const GET_REPOSITORIES_LOWEST = gql`
 {
-  repositories (orderBy: RATING_AVERAGE, orderDirection:ASC) {
+  repositories (orderBy: RATING_AVERAGE, orderDirection: ASC) {
     edges {
       node {
         name
