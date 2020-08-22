@@ -94,8 +94,6 @@ const RepositoryItem = ({ item, onEndReach, openable=false }) => {
   const reviewsList = () => {
     const reviews = item.reviews.edges;
 
-    const f = () => console.log("***");
-
     return (
       <View>
         <FlatList
@@ -103,7 +101,8 @@ const RepositoryItem = ({ item, onEndReach, openable=false }) => {
           renderItem={({ item }) => <ReviewItem review={item.node} />}
           keyExtractor={({ node }) => node.id}
           ItemSeparatorComponent={ItemSeparator}
-          onEndReach={f}
+          onEndReach={() => console.log("called")}
+          onEndReachedThreshold={0.5}
         />
       </View>
     );
